@@ -8,16 +8,14 @@ import LanguageSwitcher from './components/LanguageSwitcher';
 
 function App() {
   const { t, i18n } = useTranslation();
-  const [currentDate, setCurrentDate] = useState('');
+  const [fetchedNumber, setFetchedNumber] = useState('');
   const [isEditing, setIsEditing] = useState(false);
   const [editedText, setEditedText] = useState('');
 
   useEffect(() => {
     const fetchDate = async () => {
-      const response = await axios.get(
-        'https://www.timeapi.io/api/Time/current/zone?timeZone=Europe/Kiev'
-      );
-      setCurrentDate(new Date(response.data.dateTime).toDateString());
+      const response = await axios.get('https://api.opensensemap.org/stats');
+      setFetchedNumber(response.data[0]);
     };
 
     fetchDate();
@@ -52,7 +50,7 @@ function App() {
         handleEditField={handleEditField}
         handleUpdate={handleUpdate}
         value={editedText}
-        currentDate={currentDate}
+        fetchedNumber={fetchedNumber}
       />
     </div>
   );

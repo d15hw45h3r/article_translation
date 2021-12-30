@@ -1,15 +1,14 @@
 import React from 'react';
 import { Trans, withTranslation } from 'react-i18next';
 
-const Article = ({ t, handleEdit, edit, handleUpdate, handleEditField, value, currentDate }) => {
-  console.log(currentDate);
+const Article = ({ t, handleEdit, edit, handleUpdate, handleEditField, value, fetchedNumber }) => {
   return (
     <div>
       <div className='article'>
         <h2>
           <Trans i18nKey={'title'}>
             Micro Frontends in Action: Architecture and Integration Approaches
-            <span className='date'>{{ currentDate }}</span>
+            <span className='date'>{{ currentDate: fetchedNumber }}</span>
           </Trans>
         </h2>
         {edit ? (
