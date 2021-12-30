@@ -14,8 +14,10 @@ function App() {
 
   useEffect(() => {
     const fetchDate = async () => {
-      const response = await axios.get('http://worldclockapi.com/api/json/est/now');
-      setCurrentDate(new Date(response.data.currentDateTime).toDateString());
+      const response = await axios.get(
+        'https://www.timeapi.io/api/Time/current/zone?timeZone=Europe/Kiev'
+      );
+      setCurrentDate(new Date(response.data.dateTime).toDateString());
     };
 
     fetchDate();
