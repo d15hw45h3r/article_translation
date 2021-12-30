@@ -8,7 +8,7 @@ const Article = ({ t, handleEdit, edit, handleUpdate, handleEditField, value, fe
         <h2>
           <Trans i18nKey={'title'}>
             Micro Frontends in Action: Architecture and Integration Approaches
-            <span className='date'>{{ currentDate: fetchedNumber }}</span>
+            <span className='date'>{{ fetchedNumber }}</span>
           </Trans>
         </h2>
         {edit ? (
