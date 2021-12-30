@@ -1,23 +1,57 @@
-import logo from './logo.svg';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 import './App.css';
+import { useTranslation } from 'react-i18next';
+
+import Article from './components/Article';
+import LanguageSwitcher from './components/LanguageSwitcher';
 
 function App() {
+  const { t, i18n } = useTranslation();
+  const [currentDate, setCurrentDate] = useState('');
+  const [isEditing, setIsEditing] = useState(false);
+  const [editedText, setEditedText] = useState('');
+
+  useEffect(() => {
+    const fetchDate = async () => {
+      const response = await axios.get('http://worldclockapi.com/api/json/est/now');
+      setCurrentDate(new Date(response.data.currentDateTime).toDateString());
+    };
+
+    fetchDate();
+  }, []);
+
+  const handleLanguageChange = (e) => {
+    i18n.changeLanguage(e.target.value);
+    setEditedText('');
+  };
+
+  const handleEdit = () => {
+    setIsEditing(!isEditing);
+    setEditedText(t('content'));
+  };
+
+  const handleEditField = (e) => {
+    setEditedText(e.target.value);
+  };
+
+  const handleUpdate = (e) => {
+    e.preventDefault();
+    setEditedText(editedText);
+    setIsEditing(false);
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className='container'>
+      <LanguageSwitcher handleLanguageChange={handleLanguageChange} disabled={isEditing} />
+      <Article
+        handleEdit={handleEdit}
+        edit={isEditing}
+        handleEditField={handleEditField}
+        handleUpdate={handleUpdate}
+        value={editedText}
+        currentDate={currentDate}
+      />
     </div>
   );
 }
